@@ -1,0 +1,15 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+    <div style="text-align: center; padding: 20px 10px;">
+        <div style="font-size: 42px; margin-bottom: 15px;">✅</div>
+        <h2 style="color: #c084fc; margin-bottom: 10px;">Заявку прийнято!</h2>
+        <p style="font-size: 15px; line-height: 1.5; margin-bottom: 25px; color: #e2e8f0;">
+            Дякуємо! Я зв'яжусь з вами найближчим часом за вказаним номером телефону.
+        </p>
+
+        <a href="{% url 'repair_form' %}" class="btn" style="display: inline-block; width: auto; text-decoration: none; padding: 10px 24px;">
+            Повернутися
+        </a>
+    </div>
+{% endblock %}

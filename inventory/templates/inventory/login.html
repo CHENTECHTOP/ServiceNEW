@@ -1,0 +1,22 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+    <h2>Вхід для майстра</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="form-group">
+                <label class="form-label">{{ field.label }}</label>
+                <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" class="form-input" required id="id_{{ field.name }}">
+            </div>
+        {% endfor %}
+
+        {% if form.errors %}
+            <p style="color: #fca5a5; text-align: center; font-size: 13px; margin-bottom: 15px;">Неправильний логін або пароль.</p>
+        {% endif %}
+
+        <button type="submit" class="btn">Увійти в панель</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'inventory/base.html' %}
+
+{% block container_class %}wide{% endblock %}
+
+{% block content %}
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <h2 style="margin: 0; text-align: left;">Панель замовлень</h2>
+        <form action="{% url 'logout' %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fca5a5; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px;">Вийти</button>
+        </form>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Модель та особливості</th>
+                <th>Проблема</th>
+                <th>Телефон</th>
+                <th>Дата</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in repairs %}
+            <tr>
+                <td>
+                    <strong style="color: #e9d5ff; font-size: 15px;">{{ item.model_name }}</strong><br>
+                    <small style="color: #9ca3af;">{{ item.features }}</small>
+                </td>
+                <td style="max-width: 250px; word-wrap: break-word;">{{ item.problem }}</td>
+                <td style="font-weight: 600; color: #a7f3d0;">{{ item.phone_number }}</td>
+                <td style="font-size: 12px; color: #9ca3af;">{{ item.created_at|date:"d.m.Y H:i" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="text-align: center; padding: 25px; color: #9ca3af;">
+                    Поки що немає нових заявок на ремонт.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

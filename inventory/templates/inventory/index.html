@@ -1,0 +1,23 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+    <h2> Подати заявку на ремонт пристрою</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="form-group">
+                <label class="form-label">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <div style="color: #fca5a5; font-size: 12px; margin-top: 4px;">
+                        {{ field.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="btn" style="margin-top: 10px;">Відправити заявку</button>
+    </form>
+{% endblock %}

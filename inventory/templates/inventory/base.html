@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сервісний центр | Ремонт пристроїв</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+
+            background: linear-gradient(135deg, #111827, #2e1065, #3b0764);
+            color: #f3f4f6;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+
+        .header-bar {
+            width: 100%;
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .site-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #e9d5ff;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .header-btn {
+            background: rgba(147, 51, 234, 0.25);
+            border: 1px solid rgba(192, 132, 252, 0.4);
+            color: #e9d5ff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .header-btn:hover {
+            background: rgba(147, 51, 234, 0.5);
+            color: #ffffff;
+            border-color: #c084fc;
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
+        }
+
+        /* Головний контейнер (компактніший) */
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 15px;
+            width: 100%;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 28px 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            width: 100%;
+            max-width: 500px; /* Зменшений розмір для компактності */
+            transition: max-width 0.3s ease;
+        }
+        .container.wide {
+            max-width: 850px; /* Для таблиці адмінки */
+        }
+
+        h2 {
+            margin-top: 0;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 22px;
+            color: #f3f4f6;
+        }
+
+        /* Стилі полів форми */
+        .form-group {
+            margin-bottom: 14px;
+        }
+        .form-label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #e2e8f0;
+        }
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.95);
+            color: #1f2937;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #c084fc;
+            box-shadow: 0 0 0 3px rgba(192, 132, 252, 0.3);
+            background: #ffffff;
+        }
+
+        /* Кнопки */
+        .btn {
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
+        }
+        .btn:hover {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            box-shadow: 0 6px 18px rgba(139, 92, 246, 0.5);
+            transform: translateY(-1px);
+        }
+
+        /* Таблиця */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: left;
+            font-size: 14px;
+        }
+        th {
+            background: rgba(255, 255, 255, 0.08);
+            color: #c084fc;
+            font-weight: 600;
+        }
+        tr:last-child td { border-bottom: none; }
+    </style>
+</head>
+<body>
+
+
+    <header class="header-bar">
+        <div class="site-title">
+            🛠️ PhoneService
+        </div>
+        <div>
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}" class="header-btn">Панель замовлень</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="header-btn">🔑 Вхід для майстра</a>
+            {% endif %}
+        </div>
+    </header>
+
+
+    <div class="main-wrapper">
+        <div class="container {% block container_class %}{% endblock %}">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+</body>
+</html>
