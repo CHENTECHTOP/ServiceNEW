@@ -9,3 +9,12 @@ class DeviceRepair(models.Model):
 
     def __str__(self):
         return f"{self.model_name} - {self.phone_number}"
+
+class Review(models.Model):
+    author_name = models.CharField(max_length=100, verbose_name="Ім'я")
+    rating = models.IntegerField(default=5, verbose_name="Оцінка (1-5)")
+    text = models.TextField(verbose_name="Текст відгуку")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата")
+
+    def __str__(self):
+        return f"{self.author_name} ({self.rating}★)"

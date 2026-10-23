@@ -3,37 +3,117 @@
 {% block container_class %}wide{% endblock %}
 
 {% block content %}
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-        <h2 style="margin: 0; text-align: left;">Панель замовлень</h2>
+    <style>
+        .container.wide {
+            max-width: 1000px !important;
+            width: 95% !important;
+        }
+
+        .dashboard-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dashboard-table th {
+            background: rgba(255, 255, 255, 0.08);
+            color: #c084fc;
+            font-weight: 600;
+            text-align: left;
+            padding: 14px 18px;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dashboard-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            vertical-align: top;
+            font-size: 14px;
+        }
+
+        .dashboard-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .dashboard-table tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .device-title {
+            color: #e9d5ff;
+            font-size: 16px;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .device-features {
+            color: #9ca3af;
+            font-size: 13px;
+            display: block;
+        }
+
+        .phone-badge {
+            color: #a7f3d0;
+            font-weight: 600;
+            font-family: monospace;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .date-badge {
+            color: #9ca3af;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+    </style>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <h2 style="margin: 0; text-align: left; font-size: 22px;">📋 Панель замовлень</h2>
+
         <form action="{% url 'logout' %}" method="post" style="display: inline;">
             {% csrf_token %}
-            <button type="submit" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fca5a5; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px;">Вийти</button>
+            <button type="submit" style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #fca5a5; padding: 7px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; transition: 0.2s;">
+                Вийти
+            </button>
         </form>
     </div>
 
-    <table>
+    <table class="dashboard-table">
         <thead>
             <tr>
-                <th>Модель та особливості</th>
-                <th>Проблема</th>
-                <th>Телефон</th>
-                <th>Дата</th>
+                <th style="width: 28%;">Модель та особливості</th>
+                <th style="width: 38%;">Проблема</th>
+                <th style="width: 20%;">Телефон</th>
+                <th style="width: 14%;">Дата</th>
             </tr>
         </thead>
         <tbody>
             {% for item in repairs %}
             <tr>
                 <td>
-                    <strong style="color: #e9d5ff; font-size: 15px;">{{ item.model_name }}</strong><br>
-                    <small style="color: #9ca3af;">{{ item.features }}</small>
+                    <span class="device-title">{{ item.model_name }}</span>
+                    <span class="device-features">{{ item.features }}</span>
                 </td>
-                <td style="max-width: 250px; word-wrap: break-word;">{{ item.problem }}</td>
-                <td style="font-weight: 600; color: #a7f3d0;">{{ item.phone_number }}</td>
-                <td style="font-size: 12px; color: #9ca3af;">{{ item.created_at|date:"d.m.Y H:i" }}</td>
+                <td style="color: #f3f4f6; line-height: 1.5; word-break: break-word;">
+                    {{ item.problem }}
+                </td>
+                <td>
+                    <span class="phone-badge">{{ item.phone_number }}</span>
+                </td>
+                <td>
+                    <span class="date-badge">{{ item.created_at|date:"d.m.Y H:i" }}</span>
+                </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="4" style="text-align: center; padding: 25px; color: #9ca3af;">
+                <td colspan="4" style="text-align: center; padding: 35px; color: #9ca3af;">
                     Поки що немає нових заявок на ремонт.
                 </td>
             </tr>
